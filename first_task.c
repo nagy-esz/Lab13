@@ -56,6 +56,17 @@ BTree *insert(BTree *root, int value) {
     return root;
 }
 
+void inorder(BTree *root){
+    if(root != NULL){
+        inorder(root->left);
+        printf("%d ", root->value);
+        inorder(root->right);
+    }
+}
+
+void deleteTree(BTree *root){
+
+}
 
 int main(void) {
     int sample[] = {15, 96, 34, 12, 14, 56, 21, 11, 10, 9, 78, 43, 0};
@@ -65,6 +76,11 @@ int main(void) {
         root = insert(root, sample[i]);
 
     /* Call your functions here! */
+    //printing
+    inorder(root);
+    printf("\n");
+
+
 
     return 0;
 }
