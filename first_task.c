@@ -72,6 +72,34 @@ void deleteTree(BTree *root){
     free(root);
 }
 
+int countNodes(BTree *root){
+    if(root==NULL)
+        return 0;
+    return 1 + countNodes(root->left) + countNodes(root->right);
+}
+
+int sumValues(BTree *root){
+    if(root==NULL)
+        return 0;
+    return root->value + sumValues(root->left) + sumValues(root->right);
+}
+
+BTree* searchValue(BTree *root, int data){
+    if(root==NULL || root->value == data)
+        return root;
+    if(data < root->value)
+        return searchValue(root->left, data);
+    else
+        return searchValue(root->right, data);
+}
+
+void negateTheTree(BTree *root){
+    if(root==NULL)
+        return;
+    root->value = root->value*(-1);
+    negateTheTree(root->left);
+    negateTheTree(root->right);
+}
 
 int main(void) {
     int sample[] = {15, 96, 34, 12, 14, 56, 21, 11, 10, 9, 78, 43, 0};
@@ -84,6 +112,51 @@ int main(void) {
     //printing
     inorder(root);
     printf("\n");
+
+    int numberOfNodes = countNodes(root);
+    printf("%d\n", numberOfNodes);
+
+    int sumOfValues = sumValues(root);
+    printf("%d\n", sumOfValues);
+
+    int data1 = 96;
+    int data2 = 1;
+    BTree* result = searchValue(root, data1);
+    if(result != NULL && result->value == data1){
+        printf("The searching (%d) is succesful: node's value: %d\n", data1, result->value);
+    }else{
+        printf("The searching is unsuccesful\n");
+    }
+    BTree* result2 = searchValue(root, data2);
+    if(result2 != NULL && result2->value == data2){
+        printf("The searching (%d) is succesful: node's value: %d\n", data2, result2->value);
+    }else{
+        printf("The searching is unsuccesful\n");
+    }
+
+    printf("The tree was negated\n");
+    negateTheTree(root);
+    inorder(root);
+    printf("\n");
+    int newsum = sumValues(root);
+    printf("The new sum: %d\n", newsum);
+    int expectedNewSum = sumOfValues*(-1);
+    printf("Expected: %d, the negated value: %d\n", expectedNewSum, newsum);
+
+    int data1_negated = -96;
+    int data2_negated = 1;
+    BTree* result_negated = searchValue(root, data1_negated);
+    if(result_negated != NULL && result_negated->value == data1_negated){
+        printf("The searching (%d) is succesful: node's value: %d\n", data1_negated, result_negated->value);
+    }else{
+        printf("The searching is unsuccesful\n");
+    }
+    BTree* result2_negated = searchValue(root, data2_negated);
+    if(result2_negated != NULL && result2_negated->value == data2_negated){
+        printf("The searching (%d) is succesful: node's value: %d\n", data2_negated, result2_negated->value);
+    }else{
+        printf("The searching is unsuccesful\n");
+    }
 
     deleteTree(root);
 
