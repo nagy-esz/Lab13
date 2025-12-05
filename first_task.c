@@ -65,8 +65,13 @@ void inorder(BTree *root){
 }
 
 void deleteTree(BTree *root){
-
+    if(root==NULL)
+        return;
+    deleteTree(root->left);
+    deleteTree(root->right);
+    free(root);
 }
+
 
 int main(void) {
     int sample[] = {15, 96, 34, 12, 14, 56, 21, 11, 10, 9, 78, 43, 0};
@@ -80,7 +85,7 @@ int main(void) {
     inorder(root);
     printf("\n");
 
-
+    deleteTree(root);
 
     return 0;
 }
